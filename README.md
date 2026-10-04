@@ -28,7 +28,7 @@
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python tools/install_dependencies.py
 cp trading_bot/.env.example trading_bot/.env
 ```
 
@@ -38,7 +38,7 @@ Windows PowerShell:
 py -3.12 -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python tools/install_dependencies.py
 Copy-Item trading_bot/.env.example trading_bot/.env
 ```
 
@@ -137,3 +137,5 @@ SDK зафиксирован как официальный wheel T-Bank с SHA-2
 
 Лицензия пока не выбрана. Перед публичным распространением выберите условия
 использования и добавьте соответствующий `LICENSE`.
+
+Установщик `tools/install_dependencies.py` проверяет SHA-256 SDK и использует публичный CA из официального SDK только для загрузки с `opensource.tbank.ru`. Системное хранилище сертификатов и TLS-проверка PyPI не меняются.

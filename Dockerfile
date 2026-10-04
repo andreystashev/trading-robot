@@ -3,8 +3,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_DISABLE_PIP_VERSION_CHECK=1
 WORKDIR /app
 COPY trading_bot/requirements.txt /app/requirements.txt
 COPY trading_bot/constraints.txt /app/constraints.txt
+COPY trading_bot/requirements.txt /app/trading_bot/requirements.txt
+COPY trading_bot/constraints.txt /app/trading_bot/constraints.txt
+COPY tools/install_dependencies.py /app/tools/install_dependencies.py
 RUN python -m pip install --no-cache-dir --upgrade pip \
-    && python -m pip install --no-cache-dir -r /app/requirements.txt \
+    && python /app/tools/install_dependencies.py \
     && useradd --create-home --uid 10001 bot
 COPY --chown=bot:bot trading_bot /app/trading_bot
 COPY --chown=bot:bot tools /app/tools
