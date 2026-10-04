@@ -28,6 +28,8 @@ jobs:
       - run: cp trading_bot/.env.example trading_bot/.env
       - run: docker compose config --quiet
       - run: docker compose up -d
-      - run: curl --fail --retry 10 --retry-delay 2 --retry-connrefused http://127.0.0.1:8765/api/status -o /dev/null
+      - run: curl --fail --retry 10 --retry-delay 2 --retry-all-errors http://127.0.0.1:8765/api/status -o /dev/null
+      - if: failure()
+        run: docker compose logs --no-color
       - if: always()
         run: docker compose down
