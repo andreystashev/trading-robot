@@ -1,0 +1,1 @@
+{"id":"lkoh_ma","name":"LKOH · пересечение средних","ticker":"LKOH","params":{"fast":10,"slow":30,"stop_pct":1,"kind":"ma"},"initial":200000,"fee_bps":5,"slippage_bps":5}

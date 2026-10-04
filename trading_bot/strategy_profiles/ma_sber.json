@@ -1,0 +1,1 @@
+{"id":"ma_sber","name":"SBER · пересечение средних","ticker":"SBER","params":{"fast":10,"slow":30,"stop_pct":1,"kind":"ma"},"initial":100000,"fee_bps":5,"slippage_bps":5}

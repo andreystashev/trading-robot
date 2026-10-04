@@ -1,0 +1,1 @@
+{"id":"breakout_sber","name":"SBER · пробой диапазона","ticker":"SBER","params":{"fast":30,"slow":120,"trend":120,"stop_pct":1,"kind":"breakout"}}

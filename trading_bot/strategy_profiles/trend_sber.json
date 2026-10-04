@@ -1,0 +1,1 @@
+{"id":"trend_sber","name":"SBER · средние с фильтром тренда","ticker":"SBER","params":{"fast":20,"slow":60,"trend":120,"stop_pct":1,"kind":"ma"}}

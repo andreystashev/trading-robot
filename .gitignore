@@ -1,0 +1,37 @@
+# Secrets: templates are safe to commit.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# Python and editor artifacts
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.DS_Store
+.idea/
+.vscode/
+# Local data, account identifiers and orders
+.runtime/
+logs/
+reports/
+*.sqlite3*
+.bot_state.*
+.smoke_state.*
+.dashboard.*
+*.lock
+# Build/export artifacts
+build/
+dist/
+*.egg-info/
+# Private Compose overrides and exports copied from containers
+compose.override.yaml
+compose.override.yml
+saved-reports/
+saved-logs/

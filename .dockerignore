@@ -1,0 +1,14 @@
+**
+!trading_bot/
+!trading_bot/*.py
+!trading_bot/requirements.txt
+!trading_bot/constraints.txt
+!trading_bot/web/
+!trading_bot/web/**
+!trading_bot/strategy_profiles/
+!trading_bot/strategy_profiles/*.json
+!trading_bot/tests/
+!trading_bot/tests/*.py
+!tools/
+!tools/*.py
+!Dockerfile

@@ -1,0 +1,16 @@
+{
+  "id": "reversion_sber",
+  "name": "SBER · откат 2σ (эксперимент)",
+  "ticker": "SBER",
+  "params": {
+    "kind": "reversion",
+    "fast": 5,
+    "slow": 40,
+    "trend": 200,
+    "entry_edge_bps": 30,
+    "stop_pct": 2
+  },
+  "initial": 100000,
+  "fee_bps": 5,
+  "slippage_bps": 5
+}

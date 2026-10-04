@@ -1,0 +1,25 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+
+.bot_state.json
+.bot_state.tmp
+.bot_state.lock
+
+logs/
+.smoke_state.json
+.smoke_state.tmp
+.smoke_state.lock
+
+.dashboard.lock
+
+reports/
+
+# Local trade journal
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+
+# Isolated per-strategy state and virtual sessions
+.runtime/

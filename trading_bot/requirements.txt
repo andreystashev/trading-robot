@@ -1,0 +1,6 @@
+-c constraints.txt
+# SDK wheel from the official T-Bank registry; other packages use PyPI.
+# Hash verifies this exact SDK artifact, not all transitive dependencies.
+t-tech-investments @ https://opensource.tbank.ru/api/v4/projects/238/packages/pypi/files/f0fe22cbed727cecd9971200032d893c19702838b971c08abc2831fe25fa2856/t_tech_investments-1.51.0-py3-none-any.whl#sha256=f0fe22cbed727cecd9971200032d893c19702838b971c08abc2831fe25fa2856
+python-dotenv==1.2.4
+tzdata==2025.3

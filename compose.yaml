@@ -1,0 +1,30 @@
+services:
+  panel:
+    build: .
+    init: true
+    ports:
+      - "127.0.0.1:8765:8765"
+    environment:
+      TRADING_ENV_FILE: /run/secrets/invest_env
+      TRADING_PANEL_BIND: 0.0.0.0
+      SANDBOX: "true"
+      ENABLE_SANDBOX_ORDERS: "false"
+      ENABLE_AUTO_TRADING: "false"
+    secrets:
+      - invest_env
+    volumes:
+      - runtime:/app/trading_bot/.runtime
+      - logs:/app/trading_bot/logs
+      - reports:/app/trading_bot/reports
+      - profiles:/app/trading_bot/strategy_profiles
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    stop_grace_period: 30s
+secrets:
+  invest_env:
+    file: ./trading_bot/.env
+volumes:
+  runtime:
+  logs:
+  reports:
+  profiles:

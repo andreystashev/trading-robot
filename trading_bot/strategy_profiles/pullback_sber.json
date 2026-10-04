@@ -1,0 +1,16 @@
+{
+  "id": "pullback_sber",
+  "name": "SBER · RSI2-откат (эксперимент)",
+  "ticker": "SBER",
+  "params": {
+    "kind": "pullback",
+    "fast": 2,
+    "slow": 5,
+    "trend": 200,
+    "entry_edge_bps": 30,
+    "stop_pct": 2
+  },
+  "initial": 100000,
+  "fee_bps": 5,
+  "slippage_bps": 5
+}
