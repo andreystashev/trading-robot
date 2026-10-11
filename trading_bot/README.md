@@ -1,9 +1,10 @@
 # Trading Robot
 
-Основная документация находится в [README корня репозитория](../README.md).
-Все команды в ней выполняются из корня проекта.
+The main documentation is in the [repository README](../README.md). Run its commands from the repository root.
 
-- [Руководство пользователя](../docs/usage.md)
-- [Архитектура](../docs/architecture.md)
-- [Безопасность](../SECURITY.md)
-- [Разработка](../CONTRIBUTING.md)
+Detailed guides are currently in Russian:
+
+- [Usage](../docs/usage.md)
+- [Architecture](../docs/architecture.md)
+- [Security](../SECURITY.md)
+- [Development](../CONTRIBUTING.md)

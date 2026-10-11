@@ -1,30 +1,28 @@
-# Trading Robot — исследовательская панель T-Invest
+# Trading Robot
 
-Локальная веб-панель на Python для исследования торговых стратегий и проверки
-их исполнения в T-Invest Sandbox. Можно выбирать инструмент и профиль,
-проверять правила на истории, наблюдать за решениями и вести виртуальный
-портфель без брокерских заявок. Реальная торговля отключена в коде.
+[![Checks](https://github.com/andreystashev/trading-robot/actions/workflows/ci.yml/badge.svg)](https://github.com/andreystashev/trading-robot/actions/workflows/ci.yml)
 
-Проект экспериментальный: протестированная программа не означает прибыльную
-стратегию. В текущих исследованиях устойчивое преимущество не подтверждено.
-Бэктест и бумажная торговля моделируют исполнение и могут отличаться от брокера.
+A local **Python research dashboard for T-Invest Sandbox**. Configure strategy profiles, test rules on historical data, inspect decisions, and run a virtual portfolio without broker orders. Live trading is disabled in code.
 
-## Что умеет
+This is an experimental research project. A passing test suite does not establish a profitable strategy; current research has not confirmed a persistent edge. Backtests and paper trading model execution and can differ from a broker.
 
-- Профили стратегий в JSON: инструмент, алгоритм, параметры и затраты.
-- MA, пробой, откат к средней и RSI-откат; импорт и создание профиля в панели.
-- Исторический тест с датами, комиссией, проскальзыванием, CSV и HTML-отчётом.
-- Бумажная торговля по текущим котировкам: виртуальные сделки, результат и просадка.
-- Наблюдение без заявок и отдельно разрешаемое исполнение в Sandbox.
-- Журнал решений SQLite и вращаемые текстовые логи с маскировкой токенов.
-- Отдельные исследования внешнего фильтра и дневного портфельного momentum.
+## Features
 
-## Быстрый запуск с Python
+- JSON strategy profiles: instrument, algorithm, parameters, and costs.
+- Moving-average, breakout, mean-reversion, and RSI-pullback strategies.
+- Historical tests with dates, commissions, slippage, and CSV/HTML reports.
+- Paper trading against current quotes, with virtual positions, P&L, and drawdown.
+- Observation mode and separately enabled Sandbox execution.
+- SQLite decision journal and rotating logs with token masking.
+- Additional market-filter and daily portfolio-momentum research tools.
 
-Рекомендуется Python **3.12**. Все команды ниже выполняются из корня репозитория.
-В CI предусмотрены проверки Linux/Python 3.11, 3.12 и 3.13.
+## Quick start with Python
+
+**Python 3.12** is recommended; CI covers Linux with Python 3.11, 3.12, and 3.13. Run all commands from the repository root.
 
 ```bash
+git clone https://github.com/andreystashev/trading-robot.git
+cd trading-robot
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
@@ -32,7 +30,7 @@ python tools/install_dependencies.py
 cp trading_bot/.env.example trading_bot/.env
 ```
 
-Windows PowerShell:
+For Windows PowerShell, replace the environment and copy commands with:
 
 ```powershell
 py -3.12 -m venv .venv
@@ -42,29 +40,20 @@ python tools/install_dependencies.py
 Copy-Item trading_bot/.env.example trading_bot/.env
 ```
 
-Откройте `trading_bot/.env` и заполните `T_INVEST_TOKEN` токеном **песочницы**.
-Не перезаписывайте существующий настроенный `.env`.
-[Официальная инструкция](https://developer.tbank.ru/invest/intro/intro/token).
-По умолчанию оба флага отправки заявок выключены.
+Set `T_INVEST_TOKEN` in `trading_bot/.env` to a **Sandbox token**. See the [official token instructions](https://developer.tbank.ru/invest/intro/intro/token). Keep an existing configured `.env` rather than overwriting it. Both order-submission flags default to disabled.
 
 ```bash
 python trading_bot/main.py info
 python trading_bot/main.py panel
 ```
 
-Откройте **http://127.0.0.1:8765/**. Выберите профиль, дождитесь котировок,
-прогоните историю и затем запустите бумажную торговлю. Смена профиля и запуск
-панели сами по себе сделок не создают. Для смены профиля остановите текущую
-сессию. Одновременно работает один профиль. Ctrl+C останавливает панель.
+Open **<http://127.0.0.1:8765/>**. Select a profile, wait for quotes, test it on historical data, then start paper trading. Opening the panel or switching a profile does not create trades. Stop the current session before switching; only one profile runs at a time. Ctrl+C stops the panel.
 
-Виртуальная сессия сохраняет позиции, но после перезапуска требует явного
-запуска. Данные обновляются примерно раз в 30 секунд. Без актуальной котировки
-или доступной торговой сессии новые виртуальные сделки не моделируются.
+Paper positions persist, but a restarted application requires an explicit session start. Data refreshes roughly every 30 seconds. New virtual trades require a current quote and an available trading session.
 
-## Запуск с Docker Compose
+## Quick start with Docker
 
-Нужны Docker Engine/Desktop и Compose v2. Python на хосте не требуется.
-Скопируйте `.env.example`, заполните токен, затем:
+Requirements: Docker Engine/Desktop and **Compose v2**. Host Python is not needed. Copy `trading_bot/.env.example` to `trading_bot/.env`, set the token, then run:
 
 ```bash
 docker compose up --build -d
@@ -72,70 +61,70 @@ docker compose ps
 docker compose logs -f panel
 ```
 
-Панель: **http://127.0.0.1:8765/**. Если порт занят обычным Python-запуском,
-сначала остановите его. Токен подаётся файлом Compose secret во время запуска;
-`.env` не копируется в образ. Контейнер работает без root. На хосте порт
-привязан только к localhost. Не публикуйте панель в интернете.
+Open **<http://127.0.0.1:8765/>**. Stop a Python-launched panel first if it already uses that port.
 
-Docker-конфигурация принудительно выключает отправку Sandbox-заявок;
-бумажная торговля и исследования доступны. Она предназначена для безопасного
-знакомства. Изменение флагов для Sandbox-исполнения требует отдельной настройки
-Compose; подробности — [руководство](docs/usage.md).
+The container runs without root. The token is supplied through a Compose secret at runtime; `.env` is excluded from the image. The host port is bound to localhost. Keep the panel local.
+
+Compose explicitly disables Sandbox order submission while retaining research and paper trading. Enabling Sandbox execution requires separate Compose configuration; see the [usage guide (Russian)](docs/usage.md).
 
 ```bash
-docker compose stop        # остановка с сохранением данных
-docker compose start       # запуск; стратегии автоматически не стартуют
-docker compose down        # удаление контейнера, тома сохраняются
+docker compose stop        # Stop and retain data
+docker compose start       # Restart; strategies do not start automatically
+docker compose down        # Remove containers; retain named volumes
 ```
 
-Профили, состояния, логи и отчёты сохраняются в именованных томах.
-`docker compose down -v` удаляет эти данные; для обычной остановки его не используйте.
-При обновлении образа существующий том профилей сохраняет старое содержимое:
-новые профили можно импортировать из JSON через панель.
+Profiles, runtime state, logs, and reports persist in named volumes. **`docker compose down -v` deletes those data volumes**; do not use it for ordinary shutdown. Existing profile volumes retain their contents after image updates; import new JSON profiles through the panel.
 
-## Как устроен проект
+## Architecture
 
-| Файл / каталог | Назначение |
-|---|---|
-| `trading_bot/main.py` | Команды CLI |
-| `strategy.py`, `strategy_profiles/` | Сигналы и декларативные профили |
-| `auto_trader.py`, `t_invest_client.py` | Проверки риска, заявки и сверка с Sandbox |
-| `paper_trader.py` | Сохраняемый виртуальный портфель без API заявок |
-| `backtest.py` | Историческая модель исполнения и отчёты |
-| `dashboard.py`, `web/` | Локальный HTTP-сервер и интерфейс |
-| `research*.py`, `strategy_evaluation.py`, `portfolio_research.py` | Исследовательские инструменты |
-| `tests/` | Автоматические проверки без настоящего токена |
-| `tools/` | Проверка и экспорт публикационных исходников |
+| Component | Responsibility |
+| --- | --- |
+| [trading_bot/main.py](trading_bot/main.py) | CLI entry point |
+| [strategy.py](trading_bot/strategy.py), [strategy_profiles/](trading_bot/strategy_profiles/) | Signals and declarative profiles |
+| [auto_trader.py](trading_bot/auto_trader.py), [t_invest_client.py](trading_bot/t_invest_client.py) | Risk checks, orders, and Sandbox reconciliation |
+| [paper_trader.py](trading_bot/paper_trader.py) | Persistent virtual portfolio without order API calls |
+| [backtest.py](trading_bot/backtest.py) | Historical execution model and reports |
+| [dashboard.py](trading_bot/dashboard.py), [web/](trading_bot/web/) | Local HTTP server and interface |
+| `research*.py`, `strategy_evaluation.py`, `portfolio_research.py` | Research and evaluation |
+| [trading_bot/tests/](trading_bot/tests/) | Automated checks without a real token |
+| [tools/](tools/) | Dependency installation and publication checks |
 
-При локальном запуске данные создаются в `trading_bot/.runtime`, `logs`,
-`reports` и локальных SQLite/служебных файлах. Они исключены из Git и Docker
-build context. Пользовательские профили JSON сохраняются в `strategy_profiles`;
-перед публикацией проверьте также их названия и содержание.
+For Python runs, runtime data lives under `trading_bot/.runtime`, `trading_bot/logs`, `trading_bot/reports`, and local SQLite/service files. These are excluded from Git and the Docker build context. User profiles are JSON files in `trading_bot/strategy_profiles`; review their names and contents before publishing them.
 
-## Документация и разработка
+## Documentation
 
-- [Команды, профили, ограничения моделей и диагностика](docs/usage.md).
-- [Архитектура и правила безопасного исполнения](docs/architecture.md).
-- [Безопасность и подготовка к публикации](SECURITY.md).
-- [Разработка, тесты и проверка архива](CONTRIBUTING.md).
+The detailed guides are currently in Russian:
+
+- [Commands, profiles, model limits, and troubleshooting](docs/usage.md)
+- [Architecture and execution controls](docs/architecture.md)
+- [Security and publication preparation](SECURITY.md)
+- [Development, tests, and source export](CONTRIBUTING.md)
+
+## Development and validation
+
+After installing dependencies:
 
 ```bash
 python -m unittest discover -s trading_bot/tests -q
 python -m pip check
 python tools/check_publication.py
+python -m compileall -q trading_bot tools
+```
+
+GitHub Actions runs the Python test matrix and also builds the container, runs its tests, validates Compose, and checks the dashboard's status endpoint. These checks validate implementation behavior, not trading performance.
+
+To export the allowlisted publication sources:
+
+```bash
 python tools/export_source.py
 ```
 
-Последняя команда создаёт `dist/trading-robot-source.zip` по списку разрешённых
-исходников. Архив не включает `.env`, окружение, счета, журналы или отчёты.
-Проверка секретов эвристическая: содержимое исходников всё равно стоит просмотреть.
+The archive at `dist/trading-robot-source.zip` excludes the environment file, virtual environments, account data, logs, and reports. Secret detection is heuristic; review source contents before sharing.
 
-SDK зафиксирован как официальный wheel T-Bank с SHA-256; остальные зависимости
-устанавливаются из PyPI. `tzdata` обеспечивает часовые пояса в Windows и slim-
-контейнере. Версии транзитивных зависимостей закреплены в `trading_bot/constraints.txt`.
-Это фиксация версий, а не набор хешей всех платформенных wheel-файлов. Обновления SDK требуют проверки адаптера, моделей и отключения телеметрии.
+## Dependencies and project status
 
-Лицензия пока не выбрана. Перед публичным распространением выберите условия
-использования и добавьте соответствующий `LICENSE`.
+The installer verifies the official T-Bank SDK wheel with SHA-256. It uses the SDK's public CA only for downloads from `opensource.tbank.ru`; system certificates and PyPI TLS verification are unchanged. Other dependencies come from PyPI.
 
-Установщик `tools/install_dependencies.py` проверяет SHA-256 SDK и использует публичный CA из официального SDK только для загрузки с `opensource.tbank.ru`. Системное хранилище сертификатов и TLS-проверка PyPI не меняются.
+Transitive versions are pinned in [trading_bot/constraints.txt](trading_bot/constraints.txt). This is a version constraint set, not a complete cross-platform wheel hash lock. `tzdata` supplies time zones for Windows and slim containers. SDK upgrades require checking the adapter, models, and telemetry configuration.
+
+A project license has not yet been selected; no `LICENSE` file is included.
